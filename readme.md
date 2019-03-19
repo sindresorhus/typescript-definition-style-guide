@@ -86,48 +86,54 @@ Example:
 ```typescript
 export interface Options {
 	/**
-	 * Allow negative numbers.
-	 *
-	 * @default true
-	 */
+	Allow negative numbers.
+
+	@default true
+	*/
 	allowNegative?: boolean;
 
 	/**
-	 * Has the ultimate foo.
-	 *
-	 * Note: Only use this for good.
-	 *
-	 * @default false
-	 */
+	Has the ultimate foo.
+
+	Note: Only use this for good.
+
+	@default false
+	*/
 	hasFoo?: boolean;
 
 	/**
-	 * Where to save.
-	 *
-	 * Default: [User's downloads directory](https://example.com)
-	 */
+	Where to save.
+
+	Default: [User's downloads directory](https://example.com)
+
+	@example
+	```
+	add(1, 2, {saveDirectory: '/my/awesome/dir'})
+	```
+	*/
 	saveDirectory?: string;
 }
 
 /**
- * Add two numbers together.
- *
- * @param x - The first number to add.
- * @param y - The second number to add.
- * @returns The sum of `x` and `y`.
- */
+Add two numbers together.
+
+@param x - The first number to add.
+@param y - The second number to add.
+@returns The sum of `x` and `y`.
+*/
 export default function add(x: number, y: number, options?: Options): number;
 
 /**
- * Reload the specified `BrowserWindow` instance or the focused one.
- *
- * @param window - Default: `BrowserWindow.getFocusedWindow()`
- */
+Reload the specified `BrowserWindow` instance or the focused one.
+
+@param window - Default: `BrowserWindow.getFocusedWindow()`
+*/
 export function refresh(window?: BrowserWindow): void;
 ```
 
 Note:
 
+- Don't prefix lines with `*`.
 - Don't [hard-wrap](https://stackoverflow.com/questions/319925/difference-between-hard-wrap-and-soft-wrap).
 - Put an empty line between interface entries.
 - Sentences should start with an uppercase character and end in a dot.
