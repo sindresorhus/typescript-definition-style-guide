@@ -129,7 +129,7 @@ Reload the specified `BrowserWindow` instance or the focused one.
 @param window - Default: `BrowserWindow.getFocusedWindow()`
 */
 export function refresh(window?: BrowserWindow): void;
-````
+```
 
 Note:
 
