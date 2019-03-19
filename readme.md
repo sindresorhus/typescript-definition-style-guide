@@ -83,7 +83,7 @@ Exported definitions should be documented with [TSDoc](https://github.com/Micros
 
 Example:
 
-````typescript
+```typescript
 export interface Options {
 	/**
 	Allow negative numbers.
