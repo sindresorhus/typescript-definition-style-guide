@@ -41,7 +41,7 @@ Make something read-only when it's not meant to be modified. This is usually the
 
 Before:
 
-```typescript
+```ts
 interface Point {
 	x: number;
 	y: number;
@@ -51,7 +51,7 @@ interface Point {
 
 After:
 
-```typescript
+```ts
 interface Point {
 	readonly x: number;
 	readonly y: number;
@@ -65,13 +65,13 @@ Don't use implicit global types except for built-ins or when they can't be impor
 
 Before:
 
-```typescript
+```ts
 export function getWindow(): Electron.BrowserWindow;
 ```
 
 After:
 
-```typescript
+```ts
 import {BrowserWindow} from 'electron';
 
 export function getWindow(): BrowserWindow;
@@ -83,7 +83,7 @@ Exported definitions should be documented with [TSDoc](https://github.com/Micros
 
 Example:
 
-```typescript
+```ts
 export interface Options {
 	/**
 	Allow negative numbers.
@@ -151,12 +151,12 @@ Note:
 
 ### Testing
 
-The type definition should be tested with [`tsd-check`](https://github.com/SamVerschueren/tsd-check). [Example of how to integrate it.](https://github.com/sindresorhus/delay/commit/594c42fa0f9f5f2997715d7e83dbd9e2e018e9aa)
+The type definition should be tested with [`tsd`](https://github.com/SamVerschueren/tsd). [Example of how to integrate it.](https://github.com/sindresorhus/delay/commit/594c42fa0f9f5f2997715d7e83dbd9e2e018e9aa)
 
 Example:
 
-```typescript
-import {expectType} from 'tsd-check';
+```ts
+import {expectType} from 'tsd';
 import delay from '.';
 
 expectType<void>(await delay(200));
@@ -168,7 +168,9 @@ expectType<never>(await delay.reject(200, {value: '🦄'}));
 expectType<never>(await delay.reject(200, {value: 0}));
 ```
 
+When it makes sense, also add a negative test using [`expectError()`](https://github.com/SamVerschueren/tsd#expecterrorfunction).
+
 Note:
 
 - The test file should be named `index.test-d.ts`.
-- `tsd-check` supports top-level `await`.
+- `tsd` supports top-level `await`.
