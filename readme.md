@@ -11,6 +11,9 @@
 - The definition should target the latest TypeScript version.
 - Exported properties/methods should be documented (see below).
 - The definition should be tested (see below).
+- When you have to use Node.js types, install the `@types/node` package as a dev dependency and add the `/// <reference types="node"/>` triple-slash reference to the top of the definition file.
+- When you have to use DOM types (`Window`, `Document`, …), add the `/// <reference lib="dom"/>` triple-slash reference to the top of the definition file.
+- Third-party library types (everything in the `@types/*` namespace) must be installed as direct dependencies, if required. Prefer imports over triple-slash references. You usually only need a triple-slash reference for a third-party library if it exposes interfaces only in the global namespace.
 - Ensure you're not falling for any of the [common mistakes](https://github.com/DefinitelyTyped/DefinitelyTyped/#common-mistakes).
 - For packages with a default export, use `export = foo;` syntax. Only use `export foo ...` syntax if the package has no default export. Do not add a `namespace` unless you have to export types or interfaces. See more on this topic [here](https://github.com/DefinitelyTyped/DefinitelyTyped#should-i-add-an-empty-namespace-to-a-package-that-doesnt-export-a-module-to-use-es6-style-imports).
 - Use the name `"types"` and not `"typings"` for the TypeScript definition field in package.json.
@@ -157,9 +160,6 @@ Note:
 - If the API accepts an options-object, define an `Options` interface as seen above. Document default option values using the [`@default` tag](http://usejsdoc.org/tags-default.html) (since interfaces cannot have default values). If the default needs to be a description instead of a basic value, use the formatting `Default: Lorem Ipsum.`.
 - Use `@returns`, not `@return`.
 - Ambient declarations can't have default parameters, so in the case of a default method parameter, document it in the parameter docs instead, as seen in the above example.
-- When you have to use Node.js types, install the `@types/node` package as a dev dependency and add the `/// <reference types="node"/>` triple-slash reference to the top of the file.
-- When you have to use DOM types (`Window`, `Document`, …), add the `/// <reference lib="dom"/>` triple-slash reference to the top of the file.
-- Third-party library types must be installed as direct dependencies, if required. They usually only require a triple-slash reference when they expose interfaces only in the global namespace. Otherwise, prefer imports over triple-slash references.
 
 ### Testing
 
