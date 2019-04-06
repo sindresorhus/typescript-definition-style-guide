@@ -157,9 +157,9 @@ Note:
 - If the API accepts an options-object, define an `Options` interface as seen above. Document default option values using the [`@default` tag](http://usejsdoc.org/tags-default.html) (since interfaces cannot have default values). If the default needs to be a description instead of a basic value, use the formatting `Default: Lorem Ipsum.`.
 - Use `@returns`, not `@return`.
 - Ambient declarations can't have default parameters, so in the case of a default method parameter, document it in the parameter docs instead, as seen in the above example.
-- When you have to use node types install the node types as a dev dependency and add the `/// <reference types="node"/>` triple-slash reference to the top of the file.
-- When you have to use DOM types (`Window`, `Document`, ...) add the `/// <reference lib="dom"/>` triple-slash reference to the top of the file.
-- Third-party library types must be installed as direct dependencies, if required. They usually only require a triple-slash reference when they expose interfaces only in the global namespace. Otherwise prefer imports over triple-slash references.
+- When you have to use Node.js types, install the `@types/node` package as a dev dependency and add the `/// <reference types="node"/>` triple-slash reference to the top of the file.
+- When you have to use DOM types (`Window`, `Document`, …), add the `/// <reference lib="dom"/>` triple-slash reference to the top of the file.
+- Third-party library types must be installed as direct dependencies, if required. They usually only require a triple-slash reference when they expose interfaces only in the global namespace. Otherwise, prefer imports over triple-slash references.
 
 ### Testing
 
