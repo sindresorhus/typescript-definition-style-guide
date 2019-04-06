@@ -186,5 +186,5 @@ Note:
 
 - The test file should be named `index.test-d.ts`.
 - `tsd` supports top-level `await`.
-- When testing promise-returning functions don't use the `await` keyword. Instead, assert directly for a `Promise` like in the example above. When you use `await` your function can potentially return a bare value without being wrapped in a `Promise`, `await` will happily accept non-`Promise` values and your test is rendered meaningless.
+- When testing promise-returning functions, don't use the `await` keyword. Instead, directly assert for a `Promise`, like in the example above. When you use `await`, your function can potentially return a bare value without being wrapped in a `Promise`, since `await` will happily accept non-`Promise` values, rendering your test meaningless.
 - Use [`const` assertions](https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript#const-assertions) when you need to pass literal or readonly typed values to functions in your tests.
