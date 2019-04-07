@@ -11,8 +11,11 @@
 - The definition should target the latest TypeScript version.
 - Exported properties/methods should be documented (see below).
 - The definition should be tested (see below).
+- When you have to use Node.js types, install the `@types/node` package as a dev dependency and add the `/// <reference types="node"/>` triple-slash reference to the top of the definition file.
+- When you have to use DOM types (`Window`, `Document`, …), add the `/// <reference lib="dom"/>` triple-slash reference to the top of the definition file.
+- Third-party library types (everything in the `@types/*` namespace) must be installed as direct dependencies, if required. Prefer imports over triple-slash references. You usually only need a triple-slash reference for a third-party library if it exposes interfaces only in the global namespace.
 - Ensure you're not falling for any of the [common mistakes](https://github.com/DefinitelyTyped/DefinitelyTyped/#common-mistakes).
-- For packages with a default export, use `export default foo;`, not `export = foo;`. You will have to add `module.exports.default = foo;` to the `index.js` file.
+- For packages with a default export, use `export = foo;` syntax. Only use `export foo ...` syntax if the package has no default export. Do not add a `namespace` unless you have to export types or interfaces. See more on this topic [here](https://github.com/DefinitelyTyped/DefinitelyTyped#should-i-add-an-empty-namespace-to-a-package-that-doesnt-export-a-module-to-use-es6-style-imports).
 - Use the name `"types"` and not `"typings"` for the TypeScript definition field in package.json.
 - If the entry file in the package is named `index.js`, name the type definition file `index.d.ts` and put it in root.<br>
 	You don't need to add a `types` field to package.json as TypeScript will infer it from the name.
@@ -25,9 +28,10 @@ Check out [this](https://github.com/sindresorhus/write-json-file/blob/master/ind
 
 ### Types
 
-- All types used in the public interface should be `export`'ed.
+- All types used in the public interface should be added to an exported namespace or `export`'ed.
 - Types should not have namespaced names; `interface Options {}`, not `interface FooOptions {}`, unless there are multiple `Options` interfaces.
 - Use the array shorthand type notation; `number[]`, not `Array<number>`.
+- Use the `readonly number[]` notation; not `ReadonlyArray<number>`.
 - Prefer using the [`unknown` type](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-0.html#new-unknown-top-type) instead of `any` whenever possible.
 - Don't use abbreviation for type/variable/function names; `function foo(options: Options)`, not `function foo(opts: Opts)`.
 - When there are more than one [generic type variable](https://www.typescriptlang.org/docs/handbook/generics.html#working-with-generic-type-variables) in a method, they should have descriptive names; `type Mapper<Element, NewElement> = …`, not `type Mapper<T, U> = …`.
@@ -37,7 +41,7 @@ Check out [this](https://github.com/sindresorhus/write-json-file/blob/master/ind
 
 #### Prefer read-only values
 
-Make something read-only when it's not meant to be modified. This is usually the case for return values. Get familiar with the [`readonly` keyword and `ReadonlyArray` type](https://www.typescriptlang.org/docs/handbook/interfaces.html#readonly-properties). There's also a [`Readonly` type](https://basarat.gitbooks.io/typescript/docs/types/readonly.html) to mark all properties as `readonly`.
+Make something read-only when it's not meant to be modified. This is usually the case for return values and option interfaces. Get familiar with the `readonly` keyword for [properties](https://www.typescriptlang.org/docs/handbook/interfaces.html#readonly-properties) and [array/tuple types](https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript#improvements-for-readonlyarray-and-readonly-tuples). There's also a [`Readonly` type](https://basarat.gitbooks.io/typescript/docs/types/readonly.html) to mark all properties as `readonly`.
 
 Before:
 
@@ -55,7 +59,7 @@ After:
 interface Point {
 	readonly x: number;
 	readonly y: number;
-	readonly children: ReadonlyArray<Point>;
+	readonly children: readonly Point[];
 }
 ```
 
@@ -84,51 +88,59 @@ Exported definitions should be documented with [TSDoc](https://github.com/Micros
 Example:
 
 ```ts
-export interface Options {
-	/**
-	Allow negative numbers.
+/// <reference lib="dom"/>
 
-	@default true
-	*/
-	allowNegative?: boolean;
+declare namespace add {
+	interface Options {
+		/**
+		Allow negative numbers.
 
-	/**
-	Has the ultimate foo.
+		@default true
+		*/
+		allowNegative?: boolean;
 
-	Note: Only use this for good.
+		/**
+		Has the ultimate foo.
 
-	@default false
-	*/
-	hasFoo?: boolean;
+		Note: Only use this for good.
 
-	/**
-	Where to save.
+		@default false
+		*/
+		hasFoo?: boolean;
 
-	Default: [User's downloads directory](https://example.com)
+		/**
+		Where to save.
 
-	@example
-	```
-	add(1, 2, {saveDirectory: '/my/awesome/dir'})
-	```
-	*/
-	saveDirectory?: string;
+		Default: [User's downloads directory](https://example.com)
+
+		@example
+		```
+		add(1, 2, {saveDirectory: '/my/awesome/dir'})
+		```
+		*/
+		saveDirectory?: string;
+	}
 }
 
-/**
-Add two numbers together.
+declare const add: {
+	/**
+	Add two numbers together.
 
-@param x - The first number to add.
-@param y - The second number to add.
-@returns The sum of `x` and `y`.
-*/
-export default function add(x: number, y: number, options?: Options): number;
+	@param x - The first number to add.
+	@param y - The second number to add.
+	@returns The sum of `x` and `y`.
+	*/
+	(x: number, y: number, options?: add.Options): number;
 
-/**
-Reload the specified `BrowserWindow` instance or the focused one.
+	/**
+	Reload the specified `BrowserWindow` instance or the focused one.
 
-@param window - Default: `BrowserWindow.getFocusedWindow()`
-*/
-export function refresh(window?: BrowserWindow): void;
+	@param window - Default: `BrowserWindow.getFocusedWindow()`
+	*/
+	refresh(window?: BrowserWindow): void;
+}
+
+export = add;
 ```
 
 Note:
@@ -144,7 +156,7 @@ Note:
 - If the parameter description just repeats the parameter name, leave it out.
 - If the parameter is `options` it doesn't need a description.
 - If the function returns `void` or a wrapped `void` like `Promise<void>`, leave out `@returns`.
-- If you include an `@example`, there should be a newline above it. There also needs be a newline after the `@example` tag because of [this TypeScript bug](https://github.com/Microsoft/TypeScript/issues/15749).
+- If you include an `@example`, there should be a newline above it. The example itself should be wrapped with triple backticks (```` ``` ````).
 - If the API accepts an options-object, define an `Options` interface as seen above. Document default option values using the [`@default` tag](http://usejsdoc.org/tags-default.html) (since interfaces cannot have default values). If the default needs to be a description instead of a basic value, use the formatting `Default: Lorem Ipsum.`.
 - Use `@returns`, not `@return`.
 - Ambient declarations can't have default parameters, so in the case of a default method parameter, document it in the parameter docs instead, as seen in the above example.
@@ -159,13 +171,13 @@ Example:
 import {expectType} from 'tsd';
 import delay from '.';
 
-expectType<void>(await delay(200));
+expectType<Promise<void>>(delay(200));
 
-expectType<string>(await delay(200, {value: '🦄'}));
-expectType<number>(await delay(200, {value: 0}));
+expectType<Promise<string>>(delay(200, {value: '🦄'}));
+expectType<Promise<number>>(delay(200, {value: 0}));
 
-expectType<never>(await delay.reject(200, {value: '🦄'}));
-expectType<never>(await delay.reject(200, {value: 0}));
+expectType<Promise<never>>(delay.reject(200, {value: '🦄'}));
+expectType<Promise<never>>(delay.reject(200, {value: 0}));
 ```
 
 When it makes sense, also add a negative test using [`expectError()`](https://github.com/SamVerschueren/tsd#expecterrorfunction).
@@ -174,3 +186,5 @@ Note:
 
 - The test file should be named `index.test-d.ts`.
 - `tsd` supports top-level `await`.
+- When testing promise-returning functions, don't use the `await` keyword. Instead, directly assert for a `Promise`, like in the example above. When you use `await`, your function can potentially return a bare value without being wrapped in a `Promise`, since `await` will happily accept non-`Promise` values, rendering your test meaningless.
+- Use [`const` assertions](https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript#const-assertions) when you need to pass literal or readonly typed values to functions in your tests.
