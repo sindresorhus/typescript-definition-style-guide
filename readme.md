@@ -81,6 +81,22 @@ import {BrowserWindow} from 'electron';
 export function getWindow(): BrowserWindow;
 ```
 
+#### Readable named imports
+
+Use a readable name when using named imports.
+
+Before:
+
+```ts
+import {Writable} from 'stream';
+```
+
+After:
+
+```ts
+import {Writable as WritableStream} from 'stream';
+```
+
 ### Documentation
 
 Exported definitions should be documented with [TSDoc](https://github.com/Microsoft/tsdoc). You can borrow text from the readme.
@@ -115,6 +131,8 @@ declare namespace add {
 
 		@example
 		```
+		import add = require('add');
+
 		add(1, 2, {saveDirectory: '/my/awesome/dir'})
 		```
 		*/
@@ -160,6 +178,13 @@ Note:
 - If the API accepts an options-object, define an `Options` interface as seen above. Document default option values using the [`@default` tag](http://usejsdoc.org/tags-default.html) (since interfaces cannot have default values). If the default needs to be a description instead of a basic value, use the formatting `Default: Lorem Ipsum.`.
 - Use `@returns`, not `@return`.
 - Ambient declarations can't have default parameters, so in the case of a default method parameter, document it in the parameter docs instead, as seen in the above example.
+- `@returns` should not duplicate the type information unless it's impossible to describe it without.
+	- `@returns A boolean of whether it was enabled.` → `@returns Whether it was enabled.`
+
+#### Code examples
+
+- Include as many code examples as possible. Borrow from the readme.
+- Code examples should be fully functional and should include the import statement.
 
 ### Testing
 
