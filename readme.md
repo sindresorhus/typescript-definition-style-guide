@@ -175,7 +175,7 @@ Note:
 - If the parameter is `options` it doesn't need a description.
 - If the function returns `void` or a wrapped `void` like `Promise<void>`, leave out `@returns`.
 - If you include an `@example`, there should be a newline above it. The example itself should be wrapped with triple backticks (```` ``` ````).
-- If the API accepts an options-object, define an `Options` interface as seen above. Document default option values using the [`@default` tag](http://usejsdoc.org/tags-default.html) (since interfaces cannot have default values). If the default needs to be a description instead of a basic value, use the formatting `Default: Lorem Ipsum.`.
+- If the API accepts an options-object, define an `Options` interface as seen above. Document default option values using the [`@default` tag](https://jsdoc.app/tags-default.html) (since interfaces cannot have default values). If the default needs to be a description instead of a basic value, use the formatting `Default: Lorem Ipsum.`.
 - Use `@returns`, not `@return`.
 - Ambient declarations can't have default parameters, so in the case of a default method parameter, document it in the parameter docs instead, as seen in the above example.
 - `@returns` should not duplicate the type information unless it's impossible to describe it without.
