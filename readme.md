@@ -17,6 +17,7 @@
 - Ensure you're not falling for any of the [common mistakes](https://github.com/DefinitelyTyped/DefinitelyTyped/#common-mistakes).
 - For packages with a default export, use `export = foo;` syntax. Only use `export foo ...` syntax if the package has no default export. Do not add a `namespace` unless you have to export types or interfaces. See more on this topic [here](https://github.com/DefinitelyTyped/DefinitelyTyped#should-i-add-an-empty-namespace-to-a-package-that-doesnt-export-a-module-to-use-es6-style-imports).
 - Use the name `"types"` and not `"typings"` for the TypeScript definition field in package.json.
+- Place `"types"` in package.json after all official package properties, but before custom properties, preferably after `"dependencies"` and/or `"devDependencies"`.
 - If the entry file in the package is named `index.js`, name the type definition file `index.d.ts` and put it in root.<br>
 	You don't need to add a `types` field to package.json as TypeScript will infer it from the name.
 - Add the type definition file to the `files` field in package.json.
