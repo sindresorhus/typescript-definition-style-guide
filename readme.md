@@ -37,7 +37,7 @@ Check out [this](https://github.com/sindresorhus/write-json-file/blob/master/ind
 - When there are more than one [generic type variable](https://www.typescriptlang.org/docs/handbook/generics.html#working-with-generic-type-variables) in a method, they should have descriptive names; `type Mapper<Element, NewElement> = …`, not `type Mapper<T, U> = …`.
 - Don't prefix the name of interfaces with `I`; `Options`, not `IOptions`.
 - Imports, destructuring, and object literals should *not* have spaces around the identifier; `{foo}`, not `{ foo }`.
-- Don't use permissable types like `object` or `Function`. Use specific type-signatures like `{[key: string]: number}` or `(input: string) => boolean;`.
+- Don't use permissive types like `object` or `Function`. Use specific type-signatures like `{[key: string]: number}` or `(input: string) => boolean;`.
 - Use `{[key: string]: any}` for accepting objects with string index type and `{[key: string]: unknown}` for returning such objects. The reason `any` is used for assignment is that TypeScript has special behavior for it:
 	> The index signature `{[key: string]: any}` in TypeScript behaves specially: it’s a valid assignment target for any object type. This is a special rule, since types with index signatures don’t normally produce this behavior.
 
