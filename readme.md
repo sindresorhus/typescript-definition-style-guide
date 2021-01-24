@@ -21,7 +21,6 @@
 	You don't need to add a `types` field to package.json as TypeScript will infer it from the name.
 - Add the type definition file to the `files` field in package.json.
 - The pull request should have the title `Add TypeScript definition`. *(Copy-paste it so you don't get it wrong)*
-- Ignore any Travis linting failures. I will fix them after merging.
 - **Help review [other pull requests](https://github.com/search?q=user%3Asindresorhus+is%3Apr+is%3Aopen+%22Add+TypeScript+definition%22&type=Issues) that adds a type definition.**
 
 Check out [this](https://github.com/sindresorhus/write-json-file/blob/main/index.d.ts) and [this](https://github.com/sindresorhus/delay/blob/main/index.d.ts) example for how it should be done.
