@@ -4,7 +4,6 @@
 
 *Open an issue if anything is unclear or if you have ideas for other checklist items.*
 
-
 ## Checklist
 
 - Use tab-indentation and semicolons.
@@ -25,7 +24,7 @@
 - Ignore any Travis linting failures. I will fix them after merging.
 - **Help review [other pull requests](https://github.com/search?q=user%3Asindresorhus+is%3Apr+is%3Aopen+%22Add+TypeScript+definition%22&type=Issues) that adds a type definition.**
 
-Check out [this](https://github.com/sindresorhus/write-json-file/blob/master/index.d.ts) and [this](https://github.com/sindresorhus/delay/blob/master/index.d.ts) example for how it should be done.
+Check out [this](https://github.com/sindresorhus/write-json-file/blob/main/index.d.ts) and [this](https://github.com/sindresorhus/delay/blob/main/index.d.ts) example for how it should be done.
 
 ### Types
 
