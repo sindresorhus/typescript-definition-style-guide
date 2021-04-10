@@ -4,20 +4,22 @@
 
 *Open an issue if anything is unclear or if you have ideas for other checklist items.*
 
+This style guide assumes your package is native ESM.
+
 ## Checklist
 
 - Use tab-indentation and semicolons.
 - The definition should target the latest TypeScript version.
 - Exported properties/methods should be documented (see below).
 - The definition should be tested (see below).
-- When you have to use Node.js types, install the `@types/node` package as a dev dependency and add the `/// <reference types="node"/>` triple-slash reference to the top of the definition file.
-- When you have to use DOM types (`Window`, `Document`, …), add the `/// <reference lib="dom"/>` triple-slash reference to the top of the definition file.
-- Third-party library types (everything in the `@types/*` namespace) must be installed as direct dependencies, if required. Prefer imports over triple-slash references. You usually only need a triple-slash reference for a third-party library if it exposes interfaces only in the global namespace.
+- When you have to use Node.js types, install the `@types/node` package as a dev dependency. **Do not** add a `/// <reference types="node"/>` triple-slash reference to the top of the definition file.
+- Third-party library types (everything in the `@types/*` namespace) must be installed as direct dependencies, if required. Use imports, not triple-slash references.
 - Ensure you're not falling for any of the [common mistakes](https://github.com/DefinitelyTyped/DefinitelyTyped/#common-mistakes).
-- For packages with a default export, use `export = foo;` syntax. Only use `export foo ...` syntax if the package has no default export. Do not add a `namespace` unless you have to export types or interfaces. See more on this topic [here](https://github.com/DefinitelyTyped/DefinitelyTyped#should-i-add-an-empty-namespace-to-a-package-that-doesnt-export-a-module-to-use-es6-style-imports).
+- For packages with a default export, use `export default function foo(…)` syntax.
+- Do not use `namespace`.
 - Use the name `"types"` and not `"typings"` for the TypeScript definition field in package.json.
 - Place `"types"` in package.json after all official package properties, but before custom properties, preferably after `"dependencies"` and/or `"devDependencies"`.
-- If the entry file in the package is named `index.js`, name the type definition file `index.d.ts` and put it in root.<br>
+- If the entry file in the package is named `index.js`, name the type definition file `index.d.ts` and put it in root.\
 	You don't need to add a `types` field to package.json as TypeScript will infer it from the name.
 - Add the type definition file to the `files` field in package.json.
 - The pull request should have the title `Add TypeScript definition`. *(Copy-paste it so you don't get it wrong)*
@@ -27,7 +29,7 @@ Check out [this](https://github.com/sindresorhus/write-json-file/blob/main/index
 
 ### Types
 
-- All types used in the public interface should be added to an exported namespace or `export`'ed.
+- All types used in the public interface should be exported using the `export` keyword.
 - Types should not have namespaced names; `interface Options {}`, not `interface FooOptions {}`, unless there are multiple `Options` interfaces.
 - Use the array shorthand type notation; `number[]`, not `Array<number>`.
 - Use the `readonly number[]` notation; not `ReadonlyArray<number>`.
@@ -36,9 +38,9 @@ Check out [this](https://github.com/sindresorhus/write-json-file/blob/main/index
 - When there are more than one [generic type variable](https://www.typescriptlang.org/docs/handbook/generics.html#working-with-generic-type-variables) in a method, they should have descriptive names; `type Mapper<Element, NewElement> = …`, not `type Mapper<T, U> = …`.
 - Don't prefix the name of interfaces with `I`; `Options`, not `IOptions`.
 - Imports, destructuring, and object literals should *not* have spaces around the identifier; `{foo}`, not `{ foo }`.
-- Don't use permissive types like `object` or `Function`. Use specific type-signatures like `{[key: string]: number}` or `(input: string) => boolean;`.
-- Use `{[key: string]: any}` for accepting objects with string index type and `{[key: string]: unknown}` for returning such objects. The reason `any` is used for assignment is that TypeScript has special behavior for it:
-	> The index signature `{[key: string]: any}` in TypeScript behaves specially: it’s a valid assignment target for any object type. This is a special rule, since types with index signatures don’t normally produce this behavior.
+- Don't use permissive types like `object` or `Function`. Use specific type-signatures like `Record<string, number>` or `(input: string) => boolean;`.
+- Use `Record<string, any>` for accepting objects with string index type and `Record<string, unknown>` for returning such objects. The reason `any` is used for assignment is that TypeScript has special behavior for it:
+	> The index signature `Record<string, any>` in TypeScript behaves specially: it’s a valid assignment target for any object type. This is a special rule, since types with index signatures don’t normally produce this behavior.
 
 #### Prefer read-only values
 
@@ -89,13 +91,13 @@ Use a readable name when using named imports.
 Before:
 
 ```ts
-import {Writable} from 'stream';
+import {Writable} from 'node:stream';
 ```
 
 After:
 
 ```ts
-import {Writable as WritableStream} from 'stream';
+import {Writable as WritableStream} from 'node:stream';
 ```
 
 ### Documentation
@@ -105,61 +107,46 @@ Exported definitions should be documented with [TSDoc](https://github.com/Micros
 Example:
 
 ```ts
-/// <reference lib="dom"/>
-
-declare namespace add {
-	interface Options {
-		/**
-		Allow negative numbers.
-
-		@default true
-		*/
-		allowNegative?: boolean;
-
-		/**
-		Has the ultimate foo.
-
-		Note: Only use this for good.
-
-		@default false
-		*/
-		hasFoo?: boolean;
-
-		/**
-		Where to save.
-
-		Default: [User's downloads directory](https://example.com)
-
-		@example
-		```
-		import add = require('add');
-
-		add(1, 2, {saveDirectory: '/my/awesome/dir'})
-		```
-		*/
-		saveDirectory?: string;
-	}
-}
-
-declare const add: {
+export interface Options {
 	/**
-	Add two numbers together.
+	Allow negative numbers.
 
-	@param x - The first number to add.
-	@param y - The second number to add.
-	@returns The sum of `x` and `y`.
+	@default true
 	*/
-	(x: number, y: number, options?: add.Options): number;
+	readonly allowNegative?: boolean;
 
 	/**
-	Reload the specified `BrowserWindow` instance or the focused one.
+	Has the ultimate foo.
 
-	@param window - Default: `BrowserWindow.getFocusedWindow()`
+	Note: Only use this for good.
+
+	@default false
 	*/
-	refresh(window?: BrowserWindow): void;
+	readonly hasFoo?: boolean;
+
+	/**
+	Where to save.
+
+	Default: [User's downloads directory](https://example.com)
+
+	@example
+	```
+	import add from 'add';
+
+	add(1, 2, {saveDirectory: '/my/awesome/dir'})
+	```
+	*/
+	readonly saveDirectory?: string;
 }
 
-export = add;
+/**
+Add two numbers together.
+
+@param x - The first number to add.
+@param y - The second number to add.
+@returns The sum of `x` and `y`.
+*/
+export default function add(x: number, y: number, options?: Options): number;
 ```
 
 Note:
@@ -195,7 +182,7 @@ Example:
 
 ```ts
 import {expectType} from 'tsd';
-import delay from '.';
+import delay from './index.js';
 
 expectType<Promise<void>>(delay(200));
 
