@@ -25,7 +25,7 @@ This style guide assumes your package is native ESM.
 - The pull request should have the title `Add TypeScript definition`. *(Copy-paste it so you don't get it wrong)*
 - **Help review [other pull requests](https://github.com/search?q=user%3Asindresorhus+is%3Apr+is%3Aopen+%22Add+TypeScript+definition%22&type=Issues) that adds a type definition.**
 
-Check out [this](https://github.com/sindresorhus/write-json-file/blob/main/index.d.ts) and [this](https://github.com/sindresorhus/delay/blob/main/index.d.ts) example for how it should be done.
+Check out [this](https://github.com/sindresorhus/filled-array/commit/aae7539cb32f163cb063499664b012d0b04b3104), [this](https://github.com/sindresorhus/write-json-file/blob/main/index.d.ts), and [this](https://github.com/sindresorhus/delay/blob/main/index.d.ts) example for how it should be done.
 
 ### Types
 
@@ -176,7 +176,7 @@ Note:
 
 ### Testing
 
-The type definition should be tested with [`tsd`](https://github.com/SamVerschueren/tsd). [Example of how to integrate it.](https://github.com/sindresorhus/delay/commit/594c42fa0f9f5f2997715d7e83dbd9e2e018e9aa)
+The type definition should be tested with [`tsd`](https://github.com/SamVerschueren/tsd). [Example of how to integrate it.](https://github.com/sindresorhus/filled-array/commit/aae7539cb32f163cb063499664b012d0b04b3104)
 
 Example:
 
