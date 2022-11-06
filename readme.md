@@ -29,8 +29,7 @@ Check out [this](https://github.com/sindresorhus/filled-array/commit/aae7539cb32
 
 ### Types
 
-- All types used in the public interface should be exported using the `export` keyword.
-- Types should not have namespaced names; `interface Options {}`, not `interface FooOptions {}`, unless there are multiple `Options` interfaces.
+- Types should not have namespaced names; `type Options {}`, not `type FooOptions {}`, unless there are multiple `Options` interfaces.
 - Use the array shorthand type notation; `number[]`, not `Array<number>`.
 - Use the `readonly number[]` notation; not `ReadonlyArray<number>`.
 - Prefer using the [`unknown` type](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-0.html#new-unknown-top-type) instead of `any` whenever possible.
@@ -49,21 +48,21 @@ Make something read-only when it's not meant to be modified. This is usually the
 Before:
 
 ```ts
-interface Point {
+type Point = {
 	x: number;
 	y: number;
 	children: Point[];
-}
+};
 ```
 
 After:
 
 ```ts
-interface Point {
+type Point = {
 	readonly x: number;
 	readonly y: number;
 	readonly children: readonly Point[];
-}
+};
 ```
 
 #### Import types explicitly
@@ -107,7 +106,7 @@ Exported definitions should be documented with [TSDoc](https://github.com/Micros
 Example:
 
 ```ts
-export interface Options {
+export type Options = {
 	/**
 	Allow negative numbers.
 
@@ -137,7 +136,7 @@ export interface Options {
 	```
 	*/
 	readonly saveDirectory?: string;
-}
+};
 
 /**
 Add two numbers together.
@@ -153,7 +152,7 @@ Note:
 
 - Don't prefix lines with `*`.
 - Don't [hard-wrap](https://stackoverflow.com/questions/319925/difference-between-hard-wrap-and-soft-wrap).
-- Put an empty line between interface entries.
+- Put an empty line between type entries.
 - Sentences should start with an uppercase character and end in a dot.
 - There's an empty line after the function description.
 - Parameters and the return value should be documented.
@@ -163,7 +162,7 @@ Note:
 - If the parameter is `options` it doesn't need a description.
 - If the function returns `void` or a wrapped `void` like `Promise<void>`, leave out `@returns`.
 - If you include an `@example`, there should be a newline above it. The example itself should be wrapped with triple backticks (```` ``` ````).
-- If the API accepts an options-object, define an `Options` interface as seen above. Document default option values using the [`@default` tag](https://jsdoc.app/tags-default.html) (since interfaces cannot have default values). If the default needs to be a description instead of a basic value, use the formatting `Default: Lorem Ipsum.`.
+- If the API accepts an options-object, define an `Options` type as seen above. Document default option values using the [`@default` tag](https://jsdoc.app/tags-default.html) (since type cannot have default values). If the default needs to be a description instead of a basic value, use the formatting `Default: Lorem Ipsum.`.
 - Use `@returns`, not `@return`.
 - Ambient declarations can't have default parameters, so in the case of a default method parameter, document it in the parameter docs instead, as seen in the above example.
 - `@returns` should not duplicate the type information unless it's impossible to describe it without.
